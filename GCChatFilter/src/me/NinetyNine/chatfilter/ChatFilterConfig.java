@@ -18,14 +18,8 @@ public class ChatFilterConfig implements Listener {
 	public static void addWhitelist(String path, String word) {
 		List<String> list = getConfig().getStringList(path);
 
-		for (String words : list) {
-			for (int i = 0; i < list.size(); i++)
-				if (list.get(i).equalsIgnoreCase(words))
-					return;
-		}
-
 		if (!list.contains(word)) {
-			list.add(word);
+			list.add(word.toUpperCase());
 			set(path, list);
 			save();
 		} else
