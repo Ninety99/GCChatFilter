@@ -1,0 +1,16 @@
+name: GCChatFilter
+main: me.NinetyNine.chatfilter.ChatFilter
+version: 0.1
+author: NinetyNine
+description: A chat filter.
+commands:
+  gcf:
+    usage: /<command>
+    description: 
+permissions:
+  gcf.whitelist:
+    default: op
+  gcf.whitelist.add:
+    default: op
+  gcf.whitelist.remove:
+    default: op
