@@ -5,7 +5,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
-import me.NinetyNine.chatfilter.checker.ChatCapsChecker;
 import me.NinetyNine.chatfilter.commands.ChatFilterCommands;
 import me.NinetyNine.chatfilter.utils.ChatUtils;
 
