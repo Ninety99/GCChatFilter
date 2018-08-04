@@ -1,4 +1,4 @@
-name: GCChatFilter
+name: gcChatFilter
 main: me.NinetyNine.chatfilter.ChatFilter
 version: 0.1
 author: NinetyNine
