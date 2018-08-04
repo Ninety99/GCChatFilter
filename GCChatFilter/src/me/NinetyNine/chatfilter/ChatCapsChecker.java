@@ -27,10 +27,12 @@ public class ChatCapsChecker implements Listener {
 
 		for (String word : args) {
 			System.out.println(word + " is the word");
+			if (ChatFilterConfig.getConfig().getStringList("whitelist").contains(word.toUpperCase()))
+				break;
 			
 			for (Player on : Bukkit.getServer().getOnlinePlayers()) {
 				if (on.getName().equals(word))
-					return;
+					break;
 			}
 			
 			for (int i = 0; i < word.length(); i++) {
@@ -38,25 +40,21 @@ public class ChatCapsChecker implements Listener {
 					caps++;
 				System.out.println("caps++");
 			}
-
-
-			if (ChatFilterConfig.getConfig().getStringList("whitelist").contains(word.toUpperCase()))
-				word.toUpperCase();
 			
 			if (caps > ChatFilterConfig.getInt("maxcaps")) {
 				String newWord = word.toLowerCase();
-				// (message.charAt(word.indexOf(word.length() - 1))
 				if (Character.isUpperCase(word.charAt(0)))
-					after = ("" + message.charAt(0)).toUpperCase() + message.replace(word, newWord);
+					after = word.substring(0, 1).toUpperCase() + message.replace(word, newWord);
 				else
 					after = message.replace(word, newWord);
 
 				System.out.println("replace " + word + " to " + newWord);
+				
+				System.out.println("'" + after + "' is now the message");
 
 				caps = 0;
 			} else
-				System.out.println("not caps");
-			word = after;
+				return;
 		}
 		
 		e.setMessage(after);
