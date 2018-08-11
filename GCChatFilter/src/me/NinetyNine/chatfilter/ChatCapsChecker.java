@@ -24,40 +24,44 @@ public class ChatCapsChecker implements Listener {
 		int caps = 0;
 
 		String after = "";
+		boolean isWhitelisted = false;
+		boolean isName = false;
 
 		for (String word : args) {
 			System.out.println(word + " is the word");
 			if (ChatFilterConfig.getConfig().getStringList("whitelist").contains(word.toUpperCase()))
-				break;
-			
+				isWhitelisted = true;
+
 			for (Player on : Bukkit.getServer().getOnlinePlayers()) {
 				if (on.getName().equals(word))
-					break;
+					isName = true;
 			}
-			
-			for (int i = 0; i < word.length(); i++) {
-				if (Character.isUpperCase(word.charAt(i)))
-					caps++;
-				System.out.println("caps++");
+
+			if (!(isWhitelisted && isName)) {
+				for (int i = 0; i < word.length(); i++) {
+					if (Character.isUpperCase(word.charAt(i)))
+						caps++;
+					System.out.println("caps++");
+				}
+
+				if (caps > ChatFilterConfig.getInt("maxcaps")) {
+					String newWord = word.toLowerCase();
+					if (Character.isUpperCase(word.charAt(0)))
+						after = word.substring(0, 1).toUpperCase() + message.replace(word, newWord);
+					else
+						after = message.replace(word, newWord);
+
+					System.out.println("replace " + word + " to " + newWord);
+
+					System.out.println("'" + after + "' is now the message");
+
+					caps = 0;
+				} else
+					return;
+
+				e.setMessage(after);
 			}
-			
-			if (caps > ChatFilterConfig.getInt("maxcaps")) {
-				String newWord = word.toLowerCase();
-				if (Character.isUpperCase(word.charAt(0)))
-					after = word.substring(0, 1).toUpperCase() + message.replace(word, newWord);
-				else
-					after = message.replace(word, newWord);
-
-				System.out.println("replace " + word + " to " + newWord);
-				
-				System.out.println("'" + after + "' is now the message");
-
-				caps = 0;
-			} else
-				return;
 		}
-		
-		e.setMessage(after);
 	}
 
 	public void test(AsyncPlayerChatEvent e) {
